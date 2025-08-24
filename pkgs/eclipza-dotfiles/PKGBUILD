@@ -1,0 +1,33 @@
+pkgname=eclipza-dotfiles
+pkgver=1.0
+pkgrel=1
+arch=('any')
+pkgdesc="Eclipza dotfiles for Hyprland (auto-apply)"
+license=('custom')
+depends=('rsync' 'bash')
+source=('dotfiles.tar.gz' 'eclipza-dotfiles.install')
+install=eclipza-dotfiles.install
+sha256sums=('SKIP' 'SKIP')
+package() {
+  mkdir -p "$pkgdir/usr/share/eclipza/dotfiles"
+  cp -a "$srcdir/dotfiles/." "$pkgdir/usr/share/eclipza/dotfiles/"
+  install -Dm755 /dev/stdin "$pkgdir/usr/bin/eclipza-apply-dotfiles" <<'SCRIPT'
+#!/usr/bin/env bash
+set -euo pipefail
+TARGET_USER="${SUDO_USER:-$(logname 2>/dev/null || echo root)}"
+TARGET_HOME="$(eval echo ~"$TARGET_USER")"
+SRC="/usr/share/eclipza/dotfiles"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+mkdir -p "$TARGET_HOME/.config"
+[ -d "$SRC/.config" ] && rsync -a "$SRC/.config/" "$TARGET_HOME/.config/"
+shopt -s dotglob
+for f in "$SRC"/.*; do
+  [[ "$(basename "$f")" =~ ^(\.|\.\.|\.config)$ ]] && continue
+  base="$(basename "$f")"
+  [ -e "$TARGET_HOME/$base" -o -L "$TARGET_HOME/$base" ] && mv -v "$TARGET_HOME/$base" "$TARGET_HOME/${base}.bak-$STAMP"
+  rsync -a "$f" "$TARGET_HOME/$base"
+done
+chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.config" || true
+echo "Dotfiles applied. Backups end with .bak-$STAMP"
+SCRIPT
+}

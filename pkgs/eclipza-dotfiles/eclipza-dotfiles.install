@@ -1,0 +1,3 @@
+post_install() { /usr/bin/eclipza-apply-dotfiles || true; }
+post_upgrade() { /usr/bin/eclipza-apply-dotfiles || true; }
+post_remove()  { :; }

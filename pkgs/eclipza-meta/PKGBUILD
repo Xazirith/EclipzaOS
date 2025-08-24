@@ -1,0 +1,15 @@
+pkgname=eclipza-meta
+pkgver=1.0
+pkgrel=1
+arch=('any')
+pkgdesc="Eclipza base Hyprland environment (works on vanilla Arch)"
+license=('custom')
+depends=(
+  eclipza-dotfiles
+  hyprland waybar kitty
+  pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber pavucontrol
+  wl-clipboard grim slurp
+  xdg-desktop-portal-hyprland xdg-desktop-portal-wlr
+  vulkan-tools mesa-demos
+)
+package(){ install -d "$pkgdir"; }
