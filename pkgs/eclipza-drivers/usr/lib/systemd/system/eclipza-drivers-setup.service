@@ -1,0 +1,12 @@
+[Unit]
+Description=Eclipza GPU Driver Auto-Setup
+After=network-online.target sysinit.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/eclipza/drivers-setup.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

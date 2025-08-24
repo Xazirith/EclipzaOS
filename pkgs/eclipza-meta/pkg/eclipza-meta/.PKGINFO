@@ -6,7 +6,7 @@ xdata = pkgtype=pkg
 pkgver = 1.0-1
 pkgdesc = Eclipza base Hyprland environment (works on vanilla Arch)
 url = 
-builddate = 1756020221
+builddate = 1756021053
 packager = Unknown Packager
 size = 0
 arch = any
