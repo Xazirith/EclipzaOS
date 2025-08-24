@@ -1,0 +1,18 @@
+window#waybar {
+    background: #1e1e1e;
+    color: white;
+}
+
+#workspaces button {
+    padding: 5px;
+    color: white;
+}
+
+#workspaces button.active {
+    background: #00ff99;
+    color: black;
+}
+
+#clock {
+    padding: 5px;
+}
